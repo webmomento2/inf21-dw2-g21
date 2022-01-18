@@ -1,0 +1,17 @@
+FROM node:16-slim as build-stage
+
+RUN mkdir -p /home/node/app/rct
+
+WORKDIR /home/node/app/rct
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build --production
+RUN npm install -g serve
+
+EXPOSE 3006
+
+CMD serve -s build
